@@ -18,6 +18,7 @@
         <input type="text" id="password" required><br><br>
 
         <button type="button" onclick="submitSurvey()">送信</button>
+        <button id="logoutButton">ログアウト
     </form>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -56,6 +57,12 @@
             .then(response => alert("送信しました！"))
             .catch(error => console.error("Error:", error));
         }
+        document.getElementById("logoutButton").addEventListener("click", function() {
+         liff.logout(); // ログアウト実行
+         alert("ログアウトしました！");
+         window.location.reload(); // ページをリロード
+        });
+
     </script>
 </body>
 </html>
