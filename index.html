@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初期設定</title>
+</head>
+<body>
+    <h2>初期設定</h2>
+    <form id="survey-form">
+        <label>お名前：</label>
+        <input type="text" id="name" required><br><br>
+
+        <label>ログインID：</label>
+        <input type="text" id="loginid" required><br><br>
+
+        <label>パスワード：</label>
+        <input type="text" id="password" required><br><br>
+
+        <button type="button" onclick="submitSurvey()">送信</button>
+    </form>
+
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        async function submitSurvey() {
+            await liff.init({ liffId: "dev1234" }); // LINE Developers で取得した LIFF ID に置き換え
+            const profile = await liff.getProfile();
+            const userId = profile.userId;
+
+            const data = {
+                userId: userId,
+                name: document.getElementById("name").value,
+                satisfaction: document.getElementById("loginid").value,
+                opinion: document.getElementById("password").value
+            };
+
+            fetch("https://script.google.com/macros/s/AKfycbzQGPOhxZ-VlFcNODS-zDfI1vaxyQ3Gh78TGx2YvqZ7s7EkomhM0kZmx46fs8GH_ajHvA/exec", {  // WebhookのURLを設定
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(response => alert("送信しました！"))
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
