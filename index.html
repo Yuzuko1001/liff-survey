@@ -23,7 +23,20 @@
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
         async function submitSurvey() {
-            await liff.init({ liffId: "2006901209-yLad3LxO" }); // LINE Developers で取得した LIFF ID に置き換え
+            liff.init({
+            liffId: "2006901209-yLad3LxO",
+            withLoginOnExternalBrowser: true
+            })
+            .then(() => {
+              return liff.getProfile(); // ここで profile を取得
+            })
+            .then(profile => {
+              console.log("User Profile:", profile);
+            })
+            .catch(err => {
+              console.error("LIFF Initialization Error:", err);
+            });
+            // await liff.init({ liffId: "2006901209-yLad3LxO" }); // LINE Developers で取得した LIFF ID に置き換え
             const profile = await liff.getProfile();
             const userId = profile.userId;
 
