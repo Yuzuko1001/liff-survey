@@ -18,6 +18,7 @@
         <input type="text" id="password" required><br><br>
 
         <button type="button" onclick="submitSurvey()">送信</button>
+        <button type="button" id="sendButton">送信してくれ</button>
     </form>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -64,6 +65,26 @@
             .then(response => alert("送信しました！"))
             .catch(error => console.error("Error:", error));
         }
+        document.getElementById("sendButton").addEventListener("click", function() {
+  if (!liff.isLoggedIn()) {
+    alert("LINEにログインしていません！");
+    liff.login();
+    return;
+  }
+
+  console.log("LIFF is logged in:", liff.isLoggedIn());
+  
+  liff.sendMessages([
+    { type: "text", text: "アンケートの回答を送信しました！" }
+  ])
+  .then(() => {
+    alert("送信しました！");
+  })
+  .catch(err => {
+    console.error("送信エラー:", err);
+    alert("送信エラー：" + err);
+  });
+});
     </script>
 </body>
 </html>
