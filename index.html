@@ -53,6 +53,15 @@
                 mode: "no-cors",
                 body: JSON.stringify(data)
             })
+            .then(response => response.json())
+            .then(result => {
+              console.log("送信成功:", result);
+              alert("送信しました！"); // 送信成功後に表示
+            })
+            .catch(error => {
+              console.error("送信エラー:", error);
+              alert("送信に失敗しました...");
+            });
             .then(response => alert("送信しました！"))
             .catch(error => console.error("Error:", error));
         }
