@@ -18,6 +18,7 @@
         <input type="text" id="password" required><br><br>
 
         <button type="button" onclick="submitSurvey()">送信</button>
+        <button id="sendButton">送信して</button>
     </form>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -64,6 +65,9 @@
             .then(response => alert("送信しました！"))
             .catch(error => console.error("Error:", error));
         }
+        document.getElementById("sendButton").addEventListener("click", function() {
+          alert("ボタンが押されました！");
+        });
     </script>
 </body>
 </html>
