@@ -59,13 +59,15 @@
                     };
 
                     console.log("送信データ:", data);
-                    alert("データを送信します...");
+                    alert("送信データ: " + JSON.stringify(data)); // ← データ確認
 
                     const response = await fetch("https://script.google.com/macros/s/AKfycbwv6DIU32V8nnp5KwVe28GfZCeetpSRca49kr7yaLJuXxz_mEjnEftw9rD_ru2Nd3m5mg/exec", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(data)
                     });
+
+                    alert("fetch 実行完了！"); // ← fetch が実行されたか確認
 
                     const textResponse = await response.text();
                     console.log("レスポンス:", textResponse);
