@@ -35,6 +35,13 @@
                 console.error("LIFF Initialization Error:", error);
                 alert("LIFF 初期化失敗！\n" + error);
             }
+            if (!liff.isLoggedIn()) {
+                alert("ログインしていません！ログインを試みます");
+                liff.login();
+                return;
+            } else {
+                alert("ログイン済みです");
+            }
 
             document.getElementById("sendButton").addEventListener("click", async function () {
                 try {
