@@ -67,13 +67,17 @@
                         body: JSON.stringify(data)
                     });
 
+                    const textResponse = await response.text();
+                    console.log("レスポンス:", textResponse);
+                    alert("レスポンス: " + textResponse);
+
                     const result = await response.json();
                     console.log("送信成功:", result);
                     alert("送信しました！");
 
                 } catch (error) {
                     console.error("送信エラー:", error);
-                    alert("送信に失敗しました...\n" + error);
+                    alert("送信に失敗しました...\n" + JSON.stringify(error, null, 2));
                 }
             });
         });
