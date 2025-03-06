@@ -38,11 +38,33 @@
       const userId = document.getElementById("userId").textContent.replace("LINEユーザーID: ", "");
 
       if (name && farmersId) {
-        // データを保存する処理 (例: ローカルストレージに保存)
-        localStorage.setItem("name", name);
-        localStorage.setItem("farmersId", farmersId);
-        localStorage.setItem("userId", userId); // ユーザーIDも保存
-        alert("設定が保存されました！");
+        // GASのURLを指定
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzx0CPlCOEGYgybB_5t-_zLQOzg64aQ-hy6oILj9PK1Ab_Mi8CjYe6neowisnhq71F4/exec';
+
+        // データをGASに送信
+        const params = {
+          method: 'POST',
+          contentType: 'application/x-www-form-urlencoded',
+          payload: {
+            name: name,
+            farmersId: farmersId,
+            userId: userId
+          }
+        };
+
+        fetch(scriptUrl, params)
+          .then(response => response.json())
+          .then(data => {
+            if (data.result === 'success') {
+              alert("設定が保存されました！");
+            } else {
+              alert("保存に失敗しました");
+            }
+          })
+          .catch(error => {
+            console.error('エラー:', error);
+            alert("保存に失敗しました");
+          });
       } else {
         alert("名前とファーマーズIDを入力してください。");
       }
