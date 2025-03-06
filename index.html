@@ -6,10 +6,9 @@
   <title>LIFF 初期設定</title>
   <script src="https://static.line-scdn.net/liff/2.1/sdk.js"></script>
   <script>
-//    window.onload = function() {
-    document.addEventListener('DOMContentLoaded', function() {      
+    document.addEventListener('DOMContentLoaded', function() {
       alert("Page loaded");
-      
+
       // LIFFアプリの初期化
       liff.init({ liffId: "2006901209-yLad3LxO" })
         .then(() => {
@@ -23,17 +22,17 @@
             liff.getProfile()
               .then(profile => {
                 document.getElementById("userId").textContent = "LINEユーザーID: " + profile.userId;
-                alert("LINEユーザーID:", profile.userId);
+                alert("LINEユーザーID: " + profile.userId);  // 正しい書き方
               })
               .catch((error) => {
-                alert("プロフィールの取得に失敗しました", error);
+                alert("プロフィールの取得に失敗しました: " + error.message);  // エラーメッセージを表示
               });
           }
         })
         .catch((error) => {
-          alert("LIFF初期化に失敗しました", error);
+          alert("LIFF初期化に失敗しました: " + error.message);  // エラーメッセージを表示
         });
-    };
+    });
 
     function saveSettings() {
       const name = document.getElementById("name").value;
