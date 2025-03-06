@@ -34,15 +34,10 @@
                 if (!liff.isLoggedIn()) {
                     alert("ログインしていません！ログインを試みます");
                     liff.login();
-                    return; // ログイン後、ページがリロードされるためここで処理を終了
+                    return;
                 }
 
                 alert("ログイン済みです");
-
-                // ログイン済みならアクセストークン取得
-                const accessToken = liff.getAccessToken();
-                console.log("アクセストークン:", accessToken);
-                alert("アクセストークン: " + (accessToken || "取得できませんでした"));
 
             } catch (error) {
                 console.error("LIFF Initialization Error:", error);
@@ -65,7 +60,7 @@
                 console.log("User Profile:", profile);
                 alert("User ID: " + profile.userId);
 
-                const accessToken = liff.getAccessToken(); // ログイン済みなので取得可能
+                const accessToken = liff.getAccessToken();
                 console.log("送信時のアクセストークン:", accessToken);
 
                 const data = {
@@ -85,31 +80,22 @@
                     body: JSON.stringify(data)
                 });
 
-                if (!response.ok) {
-                    throw new Error("サーバーエラー: " + response.status);
-                }
-
-                alert("fetch 実行完了！");
-
                 const textResponse = await response.text();
                 console.log("レスポンス:", textResponse);
-                alert("レスポンス: " + textResponse);
 
-                const result = JSON.parse(textResponse);
-                console.log("送信成功:", result);
-                alert("送信しました！");
+                try {
+                    const result = JSON.parse(textResponse);
+                    console.log("送信成功:", result);
+                    alert("送信しました！");
+                } catch (error) {
+                    throw new Error("サーバーからのレスポンスが不正な形式です: " + textResponse);
+                }
 
             } catch (error) {
                 console.error("fetch エラー:", error);
                 alert("送信に失敗しました: " + (error.message || "不明なエラー"));
             }
         });
-
-        // iPhone単体デバッグ用: 画面にエラー表示
-        window.onerror = function (message, source, lineno, colno, error) {
-            alert("エラー発生: " + message + "\n行: " + lineno + "\nファイル: " + source);
-            return true;
-        };
     </script>
 </body>
 </html>
