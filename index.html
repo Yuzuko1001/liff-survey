@@ -74,7 +74,7 @@
                 console.log("送信データ:", data);
                 alert("送信データ: " + JSON.stringify(data));
 
-                const response = await fetch("https://script.google.com/macros/s/AKfycbzgFzJjT2Iw2d8lsLFao92OG1wD096qkB66k0qJXtR1wAAz0rwvEDHZEz5pchyTFO88iQ/exec", {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbwYqBDETIKzYGIxhBIwEssmFO8KtezxVp8HJTsH0GwH787F9jpeA9FlY450bRkqUAxc7Q/exec", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data)
