@@ -11,20 +11,37 @@
       liff.init({ liffId: "YOUR_LIFF_ID" })
         .then(() => {
           console.log("LIFF initialized");
+
+          // ユーザーがログインしていない場合、ログインを促す
+          if (!liff.isLoggedIn()) {
+            liff.login();
+          } else {
+            // ログイン済みの場合、ユーザー情報を取得
+            liff.getProfile()
+              .then(profile => {
+                document.getElementById("userId").textContent = "LINEユーザーID: " + profile.userId;
+                console.log("LINEユーザーID:", profile.userId);
+              })
+              .catch((error) => {
+                console.error("プロフィールの取得に失敗しました", error);
+              });
+          }
         })
         .catch((error) => {
-          console.error("LIFF initialization failed", error);
+          console.error("LIFF初期化に失敗しました", error);
         });
     };
 
     function saveSettings() {
       const name = document.getElementById("name").value;
       const farmersId = document.getElementById("farmersId").value;
-      
+      const userId = document.getElementById("userId").textContent.replace("LINEユーザーID: ", "");
+
       if (name && farmersId) {
         // データを保存する処理 (例: ローカルストレージに保存)
         localStorage.setItem("name", name);
         localStorage.setItem("farmersId", farmersId);
+        localStorage.setItem("userId", userId); // ユーザーIDも保存
         alert("設定が保存されました！");
       } else {
         alert("名前とファーマーズIDを入力してください。");
@@ -40,6 +57,8 @@
 
     <label for="farmersId">ファーマーズID:</label>
     <input type="text" id="farmersId" name="farmersId" required><br><br>
+
+    <div id="userId">LINEユーザーID: </div><br><br>
 
     <button type="button" onclick="saveSettings()">設定を保存</button>
   </form>
