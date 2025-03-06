@@ -28,17 +28,7 @@
                     liffId: "2006901209-yLad3LxO",
                     withLoginOnExternalBrowser: true
                 });
-                console.log("LIFF 初期化成功！");
-                alert("LIFF 初期化成功！");
-
-                if (!liff.isLoggedIn()) {
-                    alert("ログインしていません！ログインを試みます");
-                    liff.login();
-                    return; // ログイン後、ページがリロードされるためここで処理を終了
-                }
-
-                alert("ログイン済みです");
-
+                
                 // ログイン済みならアクセストークン取得
                 const accessToken = liff.getAccessToken();
                 console.log("アクセストークン:", accessToken);
@@ -52,9 +42,6 @@
 
         document.getElementById("sendButton").addEventListener("click", async function () {
             try {
-                console.log("送信ボタンが押されました！");
-                alert("送信ボタンが押されました！");
-
                 if (!liff.isLoggedIn()) {
                     alert("LIFFにログインしていません。ログインします。");
                     liff.login();
@@ -76,9 +63,6 @@
                     accessToken: accessToken
                 };
 
-                console.log("送信データ:", data);
-                alert("送信データ: " + JSON.stringify(data));
-
                 const response = await fetch("https://script.google.com/macros/s/AKfycbzgFzJjT2Iw2d8lsLFao92OG1wD096qkB66k0qJXtR1wAAz0rwvEDHZEz5pchyTFO88iQ/exec", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -88,13 +72,6 @@
                 if (!response.ok) {
                     throw new Error("サーバーエラー: " + response.status);
                 }
-
-                alert("fetch 実行完了！");
-
-                const textResponse = await response.text();
-                console.log("レスポンス:", textResponse);
-                alert("レスポンス: " + textResponse);
-
                 const result = JSON.parse(textResponse);
                 console.log("送信成功:", result);
                 alert("送信しました！");
