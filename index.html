@@ -1,107 +1,47 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>初期設定</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIFF 初期設定</title>
+  <script src="https://static.line-scdn.net/liff/2.1/sdk.js"></script>
+  <script>
+    window.onload = function() {
+      // LIFFアプリの初期化
+      liff.init({ liffId: "YOUR_LIFF_ID" })
+        .then(() => {
+          console.log("LIFF initialized");
+        })
+        .catch((error) => {
+          console.error("LIFF initialization failed", error);
+        });
+    };
+
+    function saveSettings() {
+      const name = document.getElementById("name").value;
+      const farmersId = document.getElementById("farmersId").value;
+      
+      if (name && farmersId) {
+        // データを保存する処理 (例: ローカルストレージに保存)
+        localStorage.setItem("name", name);
+        localStorage.setItem("farmersId", farmersId);
+        alert("設定が保存されました！");
+      } else {
+        alert("名前とファーマーズIDを入力してください。");
+      }
+    }
+  </script>
 </head>
 <body>
-    <h2>初期設定</h2>
-    <form id="survey-form">
-        <label>お名前：</label>
-        <input type="text" id="name" required><br><br>
+  <h1>初期設定画面</h1>
+  <form id="settingsForm">
+    <label for="name">名前:</label>
+    <input type="text" id="name" name="name" required><br><br>
 
-        <label>ログインID：</label>
-        <input type="text" id="loginid" required><br><br>
+    <label for="farmersId">ファーマーズID:</label>
+    <input type="text" id="farmersId" name="farmersId" required><br><br>
 
-        <label>パスワード：</label>
-        <input type="text" id="password" required><br><br>
-
-        <button type="button" id="sendButton">送信</button>
-    </form>
-
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", async function () {
-            try {
-                await liff.init({
-                    liffId: "2006901209-yLad3LxO",
-                    withLoginOnExternalBrowser: true
-                });
-                console.log("LIFF 初期化成功！");
-                alert("LIFF 初期化成功！");
-
-                if (!liff.isLoggedIn()) {
-                    alert("ログインしていません！ログインを試みます");
-                    liff.login();
-                    return;
-                }
-
-                alert("ログイン済みです");
-
-            } catch (error) {
-                console.error("LIFF Initialization Error:", error);
-                alert("LIFF 初期化失敗！\n" + error.message);
-            }
-        });
-
-        document.getElementById("sendButton").addEventListener("click", async function () {
-            try {
-                console.log("送信ボタンが押されました！");
-                alert("送信ボタンが押されました！");
-
-                if (!liff.isLoggedIn()) {
-                    alert("LIFFにログインしていません。ログインします。");
-                    liff.login();
-                    return;
-                }
-
-                const profile = await liff.getProfile();
-                console.log("User Profile:", profile);
-                alert("User ID: " + profile.userId);
-
-                const accessToken = liff.getAccessToken();
-                console.log("送信時のアクセストークン:", accessToken);
-
-                const data = {
-                    userId: profile.userId,
-                    name: document.getElementById("name").value,
-                    loginid: document.getElementById("loginid").value,
-                    password: document.getElementById("password").value,
-                    accessToken: accessToken
-                };
-
-                console.log("送信データ:", data);
-                alert("送信データ: " + JSON.stringify(data));
-
-                const response = await fetch("https://script.google.com/macros/s/AKfycbwYqBDETIKzYGIxhBIwEssmFO8KtezxVp8HJTsH0GwH787F9jpeA9FlY450bRkqUAxc7Q/exec", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-
-                console.log("fetch 実行完了", response);
-
-                if (!response.ok) {
-                    throw new Error("サーバーエラー: " + response.status);
-                }
-
-                const textResponse = await response.text();
-                console.log("レスポンス:", textResponse);
-
-                try {
-                    const result = JSON.parse(textResponse);
-                    console.log("送信成功:", result);
-                    alert("送信しました！");
-                } catch (error) {
-                    throw new Error("サーバーからのレスポンスが不正な形式です: " + textResponse);
-                }
-
-            } catch (error) {
-                console.error("fetch エラー:", error);
-                alert("送信に失敗しました: " + (error.message || "不明なエラー"));
-            }
-        });
-    </script>
+    <button type="button" onclick="saveSettings()">設定を保存</button>
+  </form>
 </body>
 </html>
