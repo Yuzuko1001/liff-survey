@@ -8,12 +8,12 @@
   <script>
 //    window.onload = function() {
     document.addEventListener('DOMContentLoaded', function() {      
-      console.log('Page loaded');
+      alert('Page loaded');
       
       // LIFFアプリの初期化
       liff.init({ liffId: "2006901209-yLad3LxO" })
         .then(() => {
-          console.log("LIFF initialized");
+          alert("LIFF initialized");
 
           // ユーザーがログインしていない場合、ログインを促す
           if (!liff.isLoggedIn()) {
@@ -23,15 +23,15 @@
             liff.getProfile()
               .then(profile => {
                 document.getElementById("userId").textContent = "LINEユーザーID: " + profile.userId;
-                console.log("LINEユーザーID:", profile.userId);
+                alert("LINEユーザーID:", profile.userId);
               })
               .catch((error) => {
-                console.error("プロフィールの取得に失敗しました", error);
+                alert("プロフィールの取得に失敗しました", error);
               });
           }
         })
         .catch((error) => {
-          console.error("LIFF初期化に失敗しました", error);
+          alert("LIFF初期化に失敗しました", error);
         });
     };
 
