@@ -55,52 +55,10 @@
                 console.log("送信ボタンが押されました！");
                 alert("送信ボタンが押されました！");
 
-<<<<<<< HEAD
                 if (!liff.isLoggedIn()) {
                     alert("LIFFにログインしていません。ログインします。");
                     liff.login();
                     return;
-=======
-                    if (!liff.isLoggedIn()) {
-                        alert("LIFFにログインしていません。ログインします。");
-                        liff.login();
-                        return;
-                    }
-
-                    const profile = await liff.getProfile();
-                    console.log("User Profile:", profile);
-                    alert("User ID: " + profile.userId);
-
-                    const data = {
-                        userId: profile.userId,
-                        name: document.getElementById("name").value,
-                        satisfaction: document.getElementById("loginid").value,
-                        opinion: document.getElementById("password").value
-                    };
-
-                    console.log("送信データ:", data);
-                    alert("送信データ: " + JSON.stringify(data)); // ← データ確認
-
-                    const response = await fetch("https://script.google.com/macros/s/AKfycbwv6DIU32V8nnp5KwVe28GfZCeetpSRca49kr7yaLJuXxz_mEjnEftw9rD_ru2Nd3m5mg/exec", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(data)
-                    });
-
-                    alert("fetch 実行完了！"); // ← fetch が実行されたか確認
-
-                    const textResponse = await response.text();
-                    console.log("レスポンス:", textResponse);
-                    alert("レスポンス: " + textResponse);
-
-                    const result = await response.json();
-                    console.log("送信成功:", result);
-                    alert("送信しました！");
-
-                } catch (error) {
-                    console.error("送信エラー:", error);
-                    alert("送信に失敗しました...\n" + JSON.stringify(error, null, 2));
->>>>>>> parent of 71e270f (Update index.html)
                 }
 
                 const profile = await liff.getProfile();
@@ -121,7 +79,7 @@
                 console.log("送信データ:", data);
                 alert("送信データ: " + JSON.stringify(data));
 
-                const response = await fetch("https://script.google.com/macros/s/AKfycbwv6DIU32V8nnp5KwVe28GfZCeetpSRca49kr7yaLJuXxz_mEjnEftw9rD_ru2Nd3m5mg/exec", {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbzgFzJjT2Iw2d8lsLFao92OG1wD096qkB66k0qJXtR1wAAz0rwvEDHZEz5pchyTFO88iQ/exec", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data)
