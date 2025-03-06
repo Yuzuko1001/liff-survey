@@ -1,78 +1,110 @@
-document.addEventListener("DOMContentLoaded", async function () {
-    try {
-        await liff.init({
-            liffId: "2006901209-yLad3LxO",
-            withLoginOnExternalBrowser: true
-        });
-        console.log("LIFF 初期化成功！");
-        alert("LIFF 初期化成功！");
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初期設定</title>
+</head>
+<body>
+    <h2>初期設定</h2>
+    <form id="survey-form">
+        <label>お名前：</label>
+        <input type="text" id="name" required><br><br>
 
-        if (!liff.isLoggedIn()) {
-            alert("ログインしていません！ログインを試みます");
-            liff.login();
-            return;
-        } else {
-            alert("ログイン済みです");
-        }
+        <label>ログインID：</label>
+        <input type="text" id="loginid" required><br><br>
 
-        // アクセストークンの取得はログイン後に行う
-        const accessToken = liff.getAccessToken();
-        console.log("アクセストークン:", accessToken);
-        alert("アクセストークン: " + (accessToken || "取得できませんでした"));
+        <label>パスワード：</label>
+        <input type="text" id="password" required><br><br>
 
-    } catch (error) {
-        console.error("LIFF Initialization Error:", error);
-        alert("LIFF 初期化失敗！\n" + error);
-    }
+        <button type="button" id="sendButton">送信</button>
+    </form>
 
-    document.getElementById("sendButton").addEventListener("click", async function () {
-        try {
-            console.log("送信ボタンが押されました！");
-            alert("送信ボタンが押されました！");
-
-            if (!liff.isLoggedIn()) {
-                alert("LIFFにログインしていません。ログインします。");
-                liff.login();
-                return;
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            try {
+                await liff.init({
+                    liffId: "2006901209-yLad3LxO",
+                    withLoginOnExternalBrowser: true
+                });
+                console.log("LIFF 初期化成功！");
+                alert("LIFF 初期化成功！");
+        
+                if (!liff.isLoggedIn()) {
+                    alert("ログインしていません！ログインを試みます");
+                    liff.login();
+                    return;
+                } else {
+                    alert("ログイン済みです");
+                }
+        
+                // アクセストークンの取得はログイン後に行う
+                const accessToken = liff.getAccessToken();
+                console.log("アクセストークン:", accessToken);
+                alert("アクセストークン: " + (accessToken || "取得できませんでした"));
+        
+            } catch (error) {
+                console.error("LIFF Initialization Error:", error);
+                alert("LIFF 初期化失敗！\n" + error);
             }
-
-            const profile = await liff.getProfile();
-            console.log("User Profile:", profile);
-            alert("User ID: " + profile.userId);
-
-            const accessToken = liff.getAccessToken(); // ここでも取得
-            console.log("送信時のアクセストークン:", accessToken);
-
-            const data = {
-                userId: profile.userId,
-                name: document.getElementById("name").value,
-                loginid: document.getElementById("loginid").value,
-                password: document.getElementById("password").value,
-                accessToken: accessToken // 送信データに追加
-            };
-
-            console.log("送信データ:", data);
-            alert("送信データ: " + JSON.stringify(data));
-
-            const response = await fetch("https://script.google.com/macros/s/AKfycbwv6DIU32V8nnp5KwVe28GfZCeetpSRca49kr7yaLJuXxz_mEjnEftw9rD_ru2Nd3m5mg/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
+        
+            document.getElementById("sendButton").addEventListener("click", async function () {
+                try {
+                    console.log("送信ボタンが押されました！");
+                    alert("送信ボタンが押されました！");
+        
+                    if (!liff.isLoggedIn()) {
+                        alert("LIFFにログインしていません。ログインします。");
+                        liff.login();
+                        return;
+                    }
+        
+                    const profile = await liff.getProfile();
+                    console.log("User Profile:", profile);
+                    alert("User ID: " + profile.userId);
+        
+                    const accessToken = liff.getAccessToken(); // ここでも取得
+                    console.log("送信時のアクセストークン:", accessToken);
+        
+                    const data = {
+                        userId: profile.userId,
+                        name: document.getElementById("name").value,
+                        loginid: document.getElementById("loginid").value,
+                        password: document.getElementById("password").value,
+                        accessToken: accessToken // 送信データに追加
+                    };
+        
+                    console.log("送信データ:", data);
+                    alert("送信データ: " + JSON.stringify(data));
+        
+                    const response = await fetch("https://script.google.com/macros/s/AKfycbwv6DIU32V8nnp5KwVe28GfZCeetpSRca49kr7yaLJuXxz_mEjnEftw9rD_ru2Nd3m5mg/exec", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data)
+                    });
+        
+                    alert("fetch 実行完了！");
+        
+                    const textResponse = await response.text();
+                    console.log("レスポンス:", textResponse);
+                    alert("レスポンス: " + textResponse);
+        
+                    const result = await response.json();
+                    console.log("送信成功:", result);
+                    alert("送信しました！");
+        
+                } catch (error) {
+                    console.error("fetch エラー:", error);
+                    alert("送信に失敗しました: " + (error.message || "不明なエラー"));
+                }
             });
-
-            alert("fetch 実行完了！");
-
-            const textResponse = await response.text();
-            console.log("レスポンス:", textResponse);
-            alert("レスポンス: " + textResponse);
-
-            const result = await response.json();
-            console.log("送信成功:", result);
-            alert("送信しました！");
-
-        } catch (error) {
-            console.error("fetch エラー:", error);
-            alert("送信に失敗しました: " + (error.message || "不明なエラー"));
-        }
-    });
-});
+        });
+        // iPhone単体デバッグ用: 画面にエラー表示
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert("エラー発生: " + message + "\n行: " + lineno + "\nファイル: " + source);
+            return true;
+        };
+    </script>
+</body>
+</html>
