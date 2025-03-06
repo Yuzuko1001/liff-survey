@@ -31,6 +31,10 @@
                 console.log("LIFF 初期化成功！");
                 alert("LIFF 初期化成功！");
 
+                const accessToken = liff.getAccessToken();
+                console.log("アクセストークン:", accessToken);
+                alert("アクセストークン: " + accessToken);
+
             } catch (error) {
                 console.error("LIFF Initialization Error:", error);
                 alert("LIFF 初期化失敗！\n" + error);
