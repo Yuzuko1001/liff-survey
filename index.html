@@ -80,6 +80,12 @@
                     body: JSON.stringify(data)
                 });
 
+                console.log("fetch 実行完了", response);
+
+                if (!response.ok) {
+                    throw new Error("サーバーエラー: " + response.status);
+                }
+
                 const textResponse = await response.text();
                 console.log("レスポンス:", textResponse);
 
